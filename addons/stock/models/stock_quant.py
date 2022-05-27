@@ -776,12 +776,18 @@ class StockQuant(models.Model):
         """
         return self.env.context.get('inventory_mode') and self.user_has_groups('stock.group_stock_user')
 
+    
+    #### Unable to create new stock.quant records when addding new fields, regardless of field type. Modified _get_inventory_fields_create(self): function.
     @api.model
     def _get_inventory_fields_create(self):
         """ Returns a list of fields user can edit when he want to create a quant in `inventory_mode`.
         """
-        return ['product_id', 'location_id', 'lot_id', 'package_id', 'owner_id'] + self._get_inventory_fields_write()
-
+        #old  return ['product_id', 'location_id', 'lot_id', 'package_id', 'owner_id'] + self._get_inventory_fields_write()
+        #new
+        return ['product_id', 'location_id', 'lot_id', 'package_id', 'owner_id','x_contact',] + self._get_inventory_fields_write()
+    
+    
+    ### Adding custom fields here, to allow edites on the fly to stock.quant models. 
     @api.model
     def _get_inventory_fields_write(self):
         """ Returns a list of fields user can edit when he want to edit a quant in `inventory_mode`.
